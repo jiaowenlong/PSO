@@ -1,45 +1,49 @@
+%PSO
+%Copyright:jiaowenlong
+%2017.4.17
+
 clc
 clear
 
-%ÉèÖÃÎÊÌâÏà¹Ø±äÁ¿
-popsize=2000;%¸öÌåÊıÁ¿
-degree=100;%Ñ­»·´ÎÊı
+%è®¾ç½®é—®é¢˜ç›¸å…³å˜é‡
+popsize=2000;%ä¸ªä½“æ•°é‡
+degree=100;%å¾ªç¯æ¬¡æ•°
 
-[popmax,vmax]=Init(popsize);%³õÊ¼»¯Çó×î´óÖµÈºÌåµÄÎ»ÖÃºÍËÙ¶È
-[popmin,vmin]=Init(popsize);%³õÊ¼»¯Çó×îĞ¡ÖµÈºÌåµÄÎ»ÖÃºÍËÙ¶È
+[popmax,vmax]=Init(popsize);%åˆå§‹åŒ–æ±‚æœ€å¤§å€¼ç¾¤ä½“çš„ä½ç½®å’Œé€Ÿåº¦
+[popmin,vmin]=Init(popsize);%åˆå§‹åŒ–æ±‚æœ€å°å€¼ç¾¤ä½“çš„ä½ç½®å’Œé€Ÿåº¦
 
-%¼ÆËã³õÊ¼ÈºÌåµÄÊÊÓ¦¶È,ÈºÌå×îÓÅ¸öÌå
+%è®¡ç®—åˆå§‹ç¾¤ä½“çš„é€‚åº”åº¦,ç¾¤ä½“æœ€ä¼˜ä¸ªä½“
 [value_max,gbestvaluemax,gbestmax]=calfitvaluemax(popmax);
 [value_min,gbestvaluemin,gbestmin]=calfitvaluemin(popmin);
 
-%½«¸öÌåÀúÊ·×îÓÅÏÈÉèÎª³õÊ¼»¯Öµ
+%å°†ä¸ªä½“å†å²æœ€ä¼˜å…ˆè®¾ä¸ºåˆå§‹åŒ–å€¼
 pbestmax=popmax;
 pbestmin=popmin;
 
-%´´½¨Í¼
+%åˆ›å»ºå›¾
 set(gcf,'doublebuffer','on')
-set(gcf,'Name','Á£×ÓÈºËã·¨PSOÑİÊ¾')
+set(gcf,'Name','ç²’å­ç¾¤ç®—æ³•PSOæ¼”ç¤º')
 axis([1 6 2 9])
 grid on
 
 for i=1:degree
-    %²úÉúĞÂµÄÎ»ÖÃ
+    %äº§ç”Ÿæ–°çš„ä½ç½®
     [newpopmax,newvmax]=updatepop(popmax,vmax,pbestmax,gbestmax);
     [newpopmin,newvmin]=updatepop(popmin,vmin,pbestmin,gbestmin);
     
-    %¸üĞÂËÙ¶ÈÖµ
+    %æ›´æ–°é€Ÿåº¦å€¼
     vmax=newvmax;
     vmin=newvmin;
     
-    %¸üĞÂÎ»ÖÃÖµ
+    %æ›´æ–°ä½ç½®å€¼
     popmax=newpopmax;
     popmin=newpopmin;
     
-    %¼ÆËãĞÂµÄÊÊÓ¦¶ÈÖµ£¬¸Ã´ÎÑ­»·ÖĞµÄÈºÌå×îÓÅ
+    %è®¡ç®—æ–°çš„é€‚åº”åº¦å€¼ï¼Œè¯¥æ¬¡å¾ªç¯ä¸­çš„ç¾¤ä½“æœ€ä¼˜
     [newvalue_max,newgbestvaluemax,newgbestmax]=calfitvaluemax(newpopmax);
     [newvalue_min,newgbestvaluemin,newgbestmin]=calfitvaluemin(newpopmin);
     
-    %¸üĞÂ¸öÌåÀúÊ·×îÓÅ
+    %æ›´æ–°ä¸ªä½“å†å²æœ€ä¼˜
     for j=1:popsize
         if newvalue_max(j)>value_max(j)
             pbestmax(:,j)=newpopmax(:,j);
@@ -49,7 +53,7 @@ for i=1:degree
         end      
     end
     
-    %¸üĞÂÈºÌå×îÓÅ
+    %æ›´æ–°ç¾¤ä½“æœ€ä¼˜
     if newgbestvaluemax>gbestvaluemax
         gbestvaluemax=newgbestvaluemax;
         gbestmax=newgbestmax;
@@ -60,7 +64,7 @@ for i=1:degree
         gbestmin=newgbestmin;
     end
     
-    %»æÖÆ¶¯Ì¬ÔË¶¯É¢µãÍ¼
+    %ç»˜åˆ¶åŠ¨æ€è¿åŠ¨æ•£ç‚¹å›¾
     plot(newpopmax(1,:),newpopmax(2,:),'r*',newpopmin(1,:),newpopmin(2,:),'go');
     drawnow
     
